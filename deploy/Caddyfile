@@ -1,0 +1,58 @@
+# Caddy 配置文件
+# 文件名: Caddyfile
+# 路径: /workspace/deploy/Caddyfile
+
+# 请将 your-domain.com 替换为你的实际域名
+your-domain.com {
+    # 自动HTTPS (Caddy会自动申请和续期SSL证书)
+    
+    # 前端静态文件
+    handle /assets/* {
+        reverse_proxy frontend:80
+    }
+    
+    # API 请求转发到后端
+    handle /api/* {
+        reverse_proxy backend:8080
+    }
+    
+    # 上传文件
+    handle /uploads/* {
+        reverse_proxy backend:8080
+    }
+    
+    # 其他请求都转发到前端 (Vue Router history模式支持)
+    handle {
+        reverse_proxy frontend:80
+    }
+    
+    # 日志配置
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+    
+    # 安全头
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}
+
+# 本地开发环境 (无域名时使用IP)
+:80 {
+    handle /api/* {
+        reverse_proxy backend:8080
+    }
+    
+    handle /uploads/* {
+        reverse_proxy backend:8080
+    }
+    
+    handle {
+        reverse_proxy frontend:80
+    }
+}

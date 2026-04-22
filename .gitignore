@@ -1,0 +1,36 @@
+```
+# Dependencies
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+build/
+target/
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+
+# Go specific
+*.exe
+*.dll
+*.so
+*.a
+*.obj
+*.out
+```
